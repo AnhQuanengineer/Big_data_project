@@ -5,6 +5,7 @@ from config.mysql_config import get_database_config
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
+
 def create_spark_session(
         app_name : str
         ,master_url : str = 'local[*]'
@@ -82,7 +83,7 @@ def connect_to_mysql(spark : SparkSession, config : Dict[str,str], table_name : 
     #         .load()
     # return df
 
-def write_to_mysql(df , config : Dict[str,str], table_name : str):
+def write_to_mysql(df : DataFrame , config : Dict[str,str], table_name : str, mode : str):
     mysql_url = config['mysql_url']
     properties = {
         "user": config['user'],
@@ -93,7 +94,7 @@ def write_to_mysql(df , config : Dict[str,str], table_name : str):
     return df.write \
         .jdbc(url = mysql_url,
               table = table_name,
-              mode="overwrite",
+              mode= mode,
               properties = properties)
 
 
@@ -150,8 +151,8 @@ mysql_table_users = 'Users'
 mysql_table_repositories = 'Repositories'
 
 
-write_to_mysql(df_Users,db_config,mysql_table_users)
-write_to_mysql(df_Repositories,db_config,mysql_table_repositories)
+write_to_mysql(df_Users,db_config,mysql_table_users,"overwrite")
+write_to_mysql(df_Repositories,db_config,mysql_table_repositories, "overwrite")
 
 
 df_mysql = connect_to_mysql(spark,db_config,mysql_table_repositories)
