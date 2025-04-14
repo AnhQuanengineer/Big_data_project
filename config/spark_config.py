@@ -1,7 +1,7 @@
 import os
 from typing import Optional,List,Dict
 from pyspark.sql import SparkSession
-from config.mysql_config import get_database_config
+from config.database_config import get_database_config
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
