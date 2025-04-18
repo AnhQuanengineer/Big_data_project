@@ -8,5 +8,5 @@ CREATE TABLE Users (
 CREATE TABLE Repositories (
     repo_id BIGINT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    url VARCHAR(255) NOT NULL
+    url VARCHAR(255)
 );
